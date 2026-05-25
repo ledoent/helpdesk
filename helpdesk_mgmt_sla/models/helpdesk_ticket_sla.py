@@ -42,9 +42,13 @@ class HelpdeskTicketSla(models.Model):
             )
 
     def _search_expired(self, operator, value):
-        if operator not in ["=", "!="]:
+        if operator not in ("=", "!=", "in", "not in"):
             raise UserError(self.env._("Operator is not valid"))
-        if (operator == "=" and value) or (operator == "!=" and not value):
+        if isinstance(value, (list, set, tuple)):
+            value = True in value
+        if (operator in ("=", "in") and value) or (
+            operator in ("!=", "not in") and not value
+        ):
             return [
                 "|",
                 ("state", "=", "expired"),
