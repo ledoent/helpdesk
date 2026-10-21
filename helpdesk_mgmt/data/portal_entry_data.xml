@@ -10,7 +10,6 @@
             file="helpdesk_mgmt/static/src/img/helpdesk_icon.svg"
         />
         <field name="placeholder_count">ticket_count</field>
-        <field name="is_config_card" eval="True" />
         <field name="sequence" eval="100" />
     </record>
 </odoo>

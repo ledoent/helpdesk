@@ -10,6 +10,7 @@ class TestHelpdeskTicketBase(BaseCommon):
         "base.group_system",
         "base.group_partner_manager",
         "helpdesk_mgmt.group_helpdesk_manager",
+        "sales_team.group_sale_salesman",
     )
 
     @classmethod

@@ -34,21 +34,6 @@
         </form>
     </template>
     <template
-        id="portal_docs_entry"
-        inherit_id="portal.portal_docs_entry"
-        primary="True"
-    >
-        <xpath expr="//t[@t-set='force_show']" position="attributes">
-            <attribute name="t-value">True</attribute>
-        </xpath>
-        <xpath expr="//div[@t-att-data-id='entry.id']/a" position="after">
-            <t
-                t-call="helpdesk_mgmt.portal_ticket_new_button"
-                _btn_classes.f="btn-sm"
-            />
-        </xpath>
-    </template>
-    <template
         id="portal_my_home"
         name="Portal My Home : ticket entries"
         inherit_id="portal.portal_my_home"
@@ -214,7 +199,7 @@
                                 t-call="portal.portal_my_contact"
                                 _contact_avatar="image_data_uri(ticket.user_id.avatar_128)"
                                 _contact_name="ticket.user_id.name"
-                                _contactLink="True"
+                                _contact_link="True"
                             >
                                 <div class="d-flex row">
                                     <a
