@@ -230,24 +230,21 @@
                             <h6>
                                 <small class="text-muted">Customer</small>
                             </h6>
-                            <t t-if="ticket.partner_id">
-                                <t
-                                    t-call="portal.portal_my_contact"
-                                    _contact_avatar="image_data_uri(ticket.partner_id.avatar_512)"
-                                    _contact_name="ticket.partner_id.display_name"
-                                >
-                                    <div
-                                        t-field="ticket.partner_id"
-                                        t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;email&quot;, &quot;phone&quot;]}"
-                                    />
-                                </t>
+                            <t
+                                t-call="portal.portal_my_contact"
+                                _contact_avatar="image_data_uri(ticket.partner_id.avatar_512)"
+                                _contact_name="ticket.partner_id.display_name"
+                            >
+                                <div
+                                    t-field="ticket.partner_id"
+                                    t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;email&quot;, &quot;phone&quot;]}"
+                                />
                             </t>
                         </div>
                     </div>
                 </t>
                 <t
                     t-call="portal.portal_record_sidebar"
-                    id="helpdesk_ticket_portal_sidebar"
                     classes="'col-lg-4 col-xxl-3 d-print-none'"
                     title="title"
                     entries="entries"
