@@ -1,6 +1,11 @@
 # Copyright 2026 Ledo Enterprises
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 import hashlib
+from unittest.mock import patch
+
+from odoo.http import request
+
+from odoo.addons.helpdesk_mgmt.controllers.main import HelpdeskTicketController
 
 from .test_helpdesk_portal import TestHelpdeskPortalBase
 
@@ -92,6 +97,30 @@ class TestHelpdeskPortalSecurity(TestHelpdeskPortalBase):
             403,
         )
         self.assertFalse(self._forged_tickets())
+
+    def test_submit_honours_a_narrowed_category_list(self):
+        """Overriding ``_get_categories`` must bind the POST, not just the form."""
+        offered_id = self.portal_category.id
+        not_offered = self.env["helpdesk.ticket.category"].create(
+            {
+                "name": "Hidden by the override",
+                "company_id": self.company.id,
+                "show_in_portal": True,
+            }
+        )
+        self.authenticate("portal", "portal")
+        with patch.object(
+            HelpdeskTicketController,
+            "_get_categories",
+            lambda controller, **kw: request.env["helpdesk.ticket.category"].browse(
+                offered_id
+            ),
+        ):
+            self.assertEqual(self._submit(category=not_offered.id).status_code, 403)
+            self.assertEqual(self._submit(category=offered_id).status_code, 302)
+        tickets = self._forged_tickets()
+        self.assertEqual(len(tickets), 1)
+        self.assertEqual(tickets.category_id.id, offered_id)
 
     def test_cannot_choose_a_stage_from_another_team(self):
         team = self.env["helpdesk.ticket.team"].create({"name": "Other service team"})

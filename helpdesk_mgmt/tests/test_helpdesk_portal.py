@@ -26,6 +26,9 @@ class TestHelpdeskPortalBase(HttpCaseWithUserPortal):
             "portal-new-submitted-ticket-description-line-2",
         )
         cls.company = cls.env.ref("base.main_company")
+        # The submissions below post a category, which the form only offers when
+        # the company lets the portal pick one.
+        cls.company.helpdesk_mgmt_portal_select_category = True
         cls.partner_portal.parent_id = cls.company.partner_id
         cls.portal_category = cls.env["helpdesk.ticket.category"].create(
             {

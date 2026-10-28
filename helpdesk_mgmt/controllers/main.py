@@ -57,34 +57,23 @@ class HelpdeskTicketController(http.Controller):
         ticket.sudo().stage_id = stage_id
         return ticket_page
 
-    def _get_portal_teams(self):
-        """Teams a portal user may file against, whatever the form offers."""
+    def _get_teams(self):
         return (
             http.request.env["helpdesk.ticket.team"]
             .with_company(request.env.company.id)
             .search([("active", "=", True), ("show_in_portal", "=", True)])
-        )
-
-    def _get_teams(self):
-        return (
-            self._get_portal_teams()
             if http.request.env.user.company_id.helpdesk_mgmt_portal_select_team
             else False
         )
 
-    def _get_portal_categories(self):
-        """Categories a portal user may file against, whatever the form offers."""
-        return (
-            http.request.env["helpdesk.ticket.category"]
-            .with_company(request.env.company.id)
-            .search([("active", "=", True), ("show_in_portal", "=", True)])
-        )
-
     def _get_categories(self, **kw):
+        company = request.env.company
+        category_model = http.request.env["helpdesk.ticket.category"]
+        domain = [("active", "=", True), ("show_in_portal", "=", True)]
         return (
-            self._get_portal_categories()
+            category_model.with_company(company.id).search(domain)
             if http.request.env.user.company_id.helpdesk_mgmt_portal_select_category
-            else http.request.env["helpdesk.ticket.category"]
+            else category_model
         )
 
     @http.route("/new/ticket", type="http", auth="user", website=True)
@@ -112,7 +101,7 @@ class HelpdeskTicketController(http.Controller):
 
     def _prepare_submit_ticket_vals(self, **kw):
         category = self._get_portal_choice(
-            self._get_portal_categories(), kw.get("category")
+            self._get_categories(**kw), kw.get("category")
         )
         company = category.company_id or http.request.env.company
         vals = {
@@ -131,7 +120,10 @@ class HelpdeskTicketController(http.Controller):
         }
         team = http.request.env["helpdesk.ticket.team"]
         if company.helpdesk_mgmt_portal_select_team and kw.get("team"):
-            team = self._get_portal_choice(self._get_portal_teams(), kw.get("team"))
+            team = self._get_portal_choice(
+                self._get_teams() or request.env["helpdesk.ticket.team"],
+                kw.get("team"),
+            )
             vals["team_id"] = team.id
         # Need to set stage_id so that the _track_template() method is called
         # and the mail is sent automatically if applicable
