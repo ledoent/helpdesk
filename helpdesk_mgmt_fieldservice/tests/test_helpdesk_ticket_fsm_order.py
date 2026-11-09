@@ -11,6 +11,11 @@ from odoo.addons.base.tests.common import BaseCommon
 
 
 class TestHelpdeskTicketFSMOrder(BaseCommon):
+    # 20.0's BaseCommon rebinds cls.env to an independent user in base.group_user
+    # only; these tests drive the ticket/order flow as the privileged user they
+    # were written for. Per the OCA 20.0 migration guide.
+    _test_user_groups = None
+
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -128,7 +133,7 @@ class TestHelpdeskTicketFSMOrder(BaseCommon):
         # checking action_complete on fsm.order with ticket
         resolution = "High resolution"
         for idx, order in enumerate(fsm_orders[:-1]):
-            order.resolution = resolution + f" {str(idx + 1)}"
+            order.resolution = resolution + f" {idx + 1!s}"
             order.action_complete()
         self.assertRecordValues(
             fsm_orders[:-1],

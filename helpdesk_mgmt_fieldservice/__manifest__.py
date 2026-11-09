@@ -3,9 +3,8 @@
 
 {
     "name": "Helpdesk Mgmt Fieldservice",
-    "summary": """
-        Create service orders from a ticket""",
-    "version": "19.0.1.0.0",
+    "summary": "Create service orders from a ticket",
+    "version": "20.0.1.0.0",
     "license": "AGPL-3",
     "author": "Open Source Integrators, Escodoo, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/helpdesk",
@@ -14,7 +13,7 @@
         "fieldservice",
     ],
     "data": [
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "views/helpdesk_ticket_views.xml",
         "views/fsm_location_views.xml",
         "views/fsm_order_views.xml",

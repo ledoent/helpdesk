@@ -53,7 +53,7 @@
         <field name="name">helpdesk.ticket.service.form.logic</field>
         <field name="model">helpdesk.ticket</field>
         <field name="inherit_id" ref="helpdesk_mgmt.ticket_view_form" />
-        <field name="priority">99</field>
+        <field name="priority" eval="99" />
         <field name="arch" type="xml">
             <field name="partner_name" position="attributes">
                 <attribute name="invisible">1</attribute>
