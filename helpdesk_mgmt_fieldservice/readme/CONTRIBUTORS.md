@@ -4,3 +4,4 @@
 - Marcel Savegnago \<<marcel.savegnago@escodoo.com.br>\>
 - Italo Lopes \<<italo.lopes@camptocamp.com>\>
 - Iván Todorovich \<<ivan.todorovich@camptocamp.com>\>
+- Don Kendall \<<dkendall@ledoweb.com>\>
