@@ -1,0 +1,5 @@
+# Neither dep has a 20.0 wheel yet: helpdesk_mgmt is OCA/helpdesk#1132 and
+# fieldservice is ledoent/field-service#2. Drop this file once both land.
+odoo-addon-helpdesk_mgmt @ git+https://github.com/ledoent/helpdesk@20.0-mig-helpdesk_mgmt#subdirectory=helpdesk_mgmt
+odoo-addon-base_territory @ git+https://github.com/ledoent/field-service@20.0-mig-base_territory#subdirectory=base_territory
+odoo-addon-fieldservice @ git+https://github.com/ledoent/field-service@20.0-mig-fieldservice#subdirectory=fieldservice
